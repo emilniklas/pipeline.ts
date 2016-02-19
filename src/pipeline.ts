@@ -1,5 +1,5 @@
 import Middleware from "./middleware"
-import { Pipeable, Handler, Pipe } from "./types"
+import { Pipeable, Handler, Pipe, ReturnValue } from "./types"
 
 export default class Pipeline<Req, Res> {
   constructor(
@@ -13,7 +13,7 @@ export default class Pipeline<Req, Res> {
     return this._handlerCache = this._pipeables.reduceRight<Handler<Req, Res>>(this._reduce, this._defaultHandler)
   }
 
-  private _defaultHandler(request: Req): Promise<Optional<Res>> {
+  private _defaultHandler(request: Req): ReturnValue<Res> {
     return Promise.resolve(nil)
   }
 
@@ -24,8 +24,8 @@ export default class Pipeline<Req, Res> {
     return (request: Req) => (<Pipe<Req, Res>>pipeable)(request, next)
   }
 
-  pipe(request: Req): Promise<Optional<Res>> {
-    return Promise.resolve<Optional<Res>>().then(() => {
+  pipe(request: Req): ReturnValue<Res> {
+    return Promise.resolve().then(() => {
       return this.handler(request)
     })
   }

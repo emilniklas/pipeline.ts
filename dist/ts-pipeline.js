@@ -1,5 +1,3 @@
-/// <reference path="typings/tsd.d.ts" />
-/// <reference path="node_modules/ts-optional/index.d.ts" />
 "use strict";
 if (require) {
     require("ts-optional");
