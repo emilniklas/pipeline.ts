@@ -8,23 +8,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var chai_1 = require("chai");
-var pipeline_1 = require("../pipeline");
+var pipeline_ts_ts_1 = require("../pipeline.ts.ts");
 describe('Pipeline', function () {
     it('throws when there is no middleware', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            var pipeline = new pipeline_1.Pipeline([]);
+            var pipeline = new pipeline_ts_ts_1.Pipeline([]);
             try {
                 var res = yield pipeline.pipe(0);
                 throw "Expected Pipeline to throw";
             }
             catch (e) {
-                chai_1.expect(e).instanceOf(pipeline_1.NoResponseFromPipelineException);
+                chai_1.expect(e).instanceOf(pipeline_ts_ts_1.NoResponseFromPipelineException);
             }
         });
     });
     it('returns response from middleware', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            var pipeline = new pipeline_1.Pipeline([
+            var pipeline = new pipeline_ts_ts_1.Pipeline([
                 function () { return "x"; }
             ]);
             chai_1.expect(yield pipeline.pipe(0)).to.equal("x");
@@ -32,7 +32,7 @@ describe('Pipeline', function () {
     });
     it('sends the request to the handler', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            var pipeline = new pipeline_1.Pipeline([
+            var pipeline = new pipeline_ts_ts_1.Pipeline([
                 function (r) { return r.toString(); }
             ]);
             chai_1.expect(yield pipeline.pipe(123)).to.equal("123");
@@ -40,7 +40,7 @@ describe('Pipeline', function () {
     });
     it('creates a pipeline of middleware', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            var pipeline = new pipeline_1.Pipeline([
+            var pipeline = new pipeline_ts_ts_1.Pipeline([
                 function (r, n) { return n(r + 1); },
                 function (r) { return r.toString(); }
             ]);

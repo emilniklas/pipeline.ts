@@ -1,25 +1,23 @@
 import Middleware from "./middleware"
-import { Pipeable, Handler } from "./types"
-
-type _Handler<Req, Res> = (request: Req) => Promise<Res>
+import { Pipeable, Handler, InnerHandler } from "./types"
 
 export class Pipeline<Req, Res> {
   constructor(
     private _pipeables: Pipeable<Req, Res>[]
   ) {}
 
-  private _handlerCache: _Handler<Req, Res>
+  private _handlerCache: InnerHandler<Req, Res>
 
-  get handler(): _Handler<Req, Res> {
+  get handler(): InnerHandler<Req, Res> {
     if (this._handlerCache) return this._handlerCache
-    return this._handlerCache = this._pipeables.reduceRight<_Handler<Req, Res>>(this._reduce, this._defaultHandler)
+    return this._handlerCache = this._pipeables.reduceRight<InnerHandler<Req, Res>>(this._reduce, this._defaultHandler)
   }
 
   private _defaultHandler(request: Req): Promise<Res> {
     throw new NoResponseFromPipelineException()
   }
 
-  private _reduce(next: _Handler<Req, Res>, pipeable: Pipeable<Req, Res>): _Handler<Req, Res> {
+  private _reduce(next: InnerHandler<Req, Res>, pipeable: Pipeable<Req, Res>): InnerHandler<Req, Res> {
     const handler: Handler<Req, Res> = pipeable instanceof Middleware
       ? pipeable.handle.bind(pipeable)
       : pipeable

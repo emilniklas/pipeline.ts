@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha dist/tests",
     "build": "tsc && npm run definition",
-    "definition": "tsc pipeline.ts -t es5 --outFile pipeline.js -m system -d --noEmitOnError && rm pipeline.js && sed -i '' -e 's/\"src\\//\"__pipeline\\/src\\//g' pipeline.d.ts"
+    "definition": "tsc pipeline.ts.ts -t es5 --outFile pipeline.ts.js -m system -d --noEmitOnError && rm pipeline.ts.js && sed -i '' -e 's/\"src\\//\"__pipeline\\/src\\//g' pipeline.ts.d.ts"
   },
   "repository": {
     "type": "git",

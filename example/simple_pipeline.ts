@@ -1,6 +1,4 @@
-/// <reference path="../ts-pipeline.d.ts" />
-
-import { Pipeline, Middleware } from "../ts-pipeline"
+import { Pipeline, Middleware } from "../pipeline.ts.ts"
 
 interface Request {
   message: string

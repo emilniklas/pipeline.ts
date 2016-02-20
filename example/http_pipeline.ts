@@ -1,7 +1,6 @@
-/// <reference path="../ts-pipeline.d.ts" />
 /// <reference path="../typings/node/node.d.ts"/>
 
-import { Pipeline, Middleware } from "../ts-pipeline"
+import { Pipeline, Middleware } from "../pipeline.ts.ts"
 import { createServer } from "http"
 
 interface Request {
@@ -38,13 +37,8 @@ createServer(async function(req, res) {
 
   const response = await pipeline.pipe(req)
 
-  if (response.isNil) {
-    res.writeHead(404)
-    res.end()
-  } else {
-    res.writeHead((<Response>response).status)
-    res.end((<Response>response).body)
-  }
+  res.writeHead(response.status)
+  res.end(response.body)
 
 }).listen(1337, () => {
   console.log('Server listening on http://localhost:1337')

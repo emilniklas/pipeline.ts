@@ -1,5 +1,5 @@
 import { expect } from "chai"
-import { Pipeline, Pipeable, Handler, NoResponseFromPipelineException } from "../pipeline"
+import { Pipeline, Pipeable, Handler, NoResponseFromPipelineException } from "../pipeline.ts.ts"
 
 type Rq = number
 type Rs = string
