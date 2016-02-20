@@ -1,35 +1,42 @@
-import * as assert from "assert"
-import { Pipeline, Pipeable, Handler } from "../ts-pipeline"
+import { expect } from "chai"
+import { Pipeline, Pipeable, Handler, NoResponseFromPipelineException } from "../ts-pipeline"
+
+type Rq = number
+type Rs = string
 
 describe('Pipeline', () => {
-
-  const assertPipeline = async function(request: number, expectedResponse: Optional<string>, pipeables: Pipeable<number, string>[]) {
-    const pipeline = new Pipeline(pipeables)
-    const response = await pipeline.pipe(request)
-    assert.equal(response, expectedResponse)
-  }
-
-  it('returns nil without any middleware', async function() {
-    await assertPipeline(0, nil, [])
+  it('throws when there is no middleware', async function() {
+    const pipeline = new Pipeline<Rq, Rs>([])
+    try {
+      const res = await pipeline.pipe(0)
+      throw "Expected Pipeline to throw"
+    } catch(e) {
+      expect(e).instanceOf(NoResponseFromPipelineException)
+    }
   })
 
-  it('returns the result of a handler', async function() {
-    await assertPipeline(0, "response", [
-      (_: number) => Promise.resolve("response")
+  it('returns response from middleware', async function() {
+    const pipeline = new Pipeline<Rq, Rs>([
+      () => "x"
     ])
+
+    expect(await pipeline.pipe(0)).to.equal("x")
   })
 
-  it('returns the first result of a handler', async function() {
-    await assertPipeline(0, "response1", [
-      (_: number) => Promise.resolve("response1"),
-      (_: number) => Promise.resolve("response2")
+  it('sends the request to the handler', async function() {
+    const pipeline = new Pipeline<Rq, Rs>([
+      (r: Rq) => r.toString()
     ])
+
+    expect(await pipeline.pipe(123)).to.equal("123")
   })
 
-  it('allows middleware to pass on the request', async function() {
-    await assertPipeline(0, "response2", [
-      (_: number, next: Handler<number, string>) => next(_),
-      (_: number) => Promise.resolve("response2")
+  it('creates a pipeline of middleware', async function() {
+    const pipeline = new Pipeline<Rq, Rs>([
+      (r: Rq, n: (r: Rq) => Promise<Rs>) => n(r + 1),
+      (r: Rq) => r.toString()
     ])
+
+    expect(await pipeline.pipe(1)).to.equal("2")
   })
 })

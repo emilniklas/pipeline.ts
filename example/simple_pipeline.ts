@@ -1,6 +1,6 @@
 /// <reference path="../ts-pipeline.d.ts" />
 
-import { Pipeline, Middleware, Handler } from "../ts-pipeline"
+import { Pipeline, Middleware } from "../ts-pipeline"
 
 interface Request {
   message: string

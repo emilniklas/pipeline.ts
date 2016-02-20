@@ -1,7 +1,7 @@
 /// <reference path="../ts-pipeline.d.ts" />
 /// <reference path="../typings/node/node.d.ts"/>
 
-import { Pipeline, Middleware, ReturnValue, Handler } from "../ts-pipeline"
+import { Pipeline, Middleware } from "../ts-pipeline"
 import { createServer } from "http"
 
 interface Request {
@@ -15,7 +15,7 @@ interface Response {
 }
 
 class MyMiddleware extends Middleware<Request, Response> {
-  pipe(request: Request, next: Handler<Request, Response>): ReturnValue<Response> {
+  handle(request: Request, next: (r: Request) => Promise<Response>): Promise<Response> {
     console.log(`Changing method from ${request.method} to POST`)
     request.method = "POST"
     return next(request)
@@ -26,7 +26,7 @@ const pipeline = new Pipeline<Request, Response>([
 
   new MyMiddleware(),
 
-  async function(request: Request): Promise<Response> {
+  (request: Request): Response => {
     return {
       status: 200,
       body: `Hello, world! This is a ${request.method} response!`

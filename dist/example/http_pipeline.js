@@ -19,7 +19,7 @@ var MyMiddleware = (function (_super) {
     function MyMiddleware() {
         _super.apply(this, arguments);
     }
-    MyMiddleware.prototype.pipe = function (request, next) {
+    MyMiddleware.prototype.handle = function (request, next) {
         console.log("Changing method from " + request.method + " to POST");
         request.method = "POST";
         return next(request);
@@ -29,12 +29,10 @@ var MyMiddleware = (function (_super) {
 var pipeline = new ts_pipeline_1.Pipeline([
     new MyMiddleware(),
     function (request) {
-        return __awaiter(this, void 0, Promise, function* () {
-            return {
-                status: 200,
-                body: "Hello, world! This is a " + request.method + " response!"
-            };
-        });
+        return {
+            status: 200,
+            body: "Hello, world! This is a " + request.method + " response!"
+        };
     }
 ]);
 http_1.createServer(function (req, res) {

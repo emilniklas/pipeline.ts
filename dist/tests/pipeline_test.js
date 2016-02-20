@@ -7,42 +7,44 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-var assert = require("assert");
+var chai_1 = require("chai");
 var ts_pipeline_1 = require("../ts-pipeline");
 describe('Pipeline', function () {
-    var assertPipeline = function (request, expectedResponse, pipeables) {
+    it('throws when there is no middleware', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            var pipeline = new ts_pipeline_1.Pipeline(pipeables);
-            var response = yield pipeline.pipe(request);
-            assert.equal(response, expectedResponse);
-        });
-    };
-    it('returns nil without any middleware', function () {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield assertPipeline(0, nil, []);
-        });
-    });
-    it('returns the result of a handler', function () {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield assertPipeline(0, "response", [
-                function (_) { return Promise.resolve("response"); }
-            ]);
+            var pipeline = new ts_pipeline_1.Pipeline([]);
+            try {
+                var res = yield pipeline.pipe(0);
+                throw "Expected Pipeline to throw";
+            }
+            catch (e) {
+                chai_1.expect(e).instanceOf(ts_pipeline_1.NoResponseFromPipelineException);
+            }
         });
     });
-    it('returns the first result of a handler', function () {
+    it('returns response from middleware', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            yield assertPipeline(0, "response1", [
-                function (_) { return Promise.resolve("response1"); },
-                function (_) { return Promise.resolve("response2"); }
+            var pipeline = new ts_pipeline_1.Pipeline([
+                function () { return "x"; }
             ]);
+            chai_1.expect(yield pipeline.pipe(0)).to.equal("x");
         });
     });
-    it('allows middleware to pass on the request', function () {
+    it('sends the request to the handler', function () {
         return __awaiter(this, void 0, void 0, function* () {
-            yield assertPipeline(0, "response2", [
-                function (_, next) { return next(_); },
-                function (_) { return Promise.resolve("response2"); }
+            var pipeline = new ts_pipeline_1.Pipeline([
+                function (r) { return r.toString(); }
             ]);
+            chai_1.expect(yield pipeline.pipe(123)).to.equal("123");
+        });
+    });
+    it('creates a pipeline of middleware', function () {
+        return __awaiter(this, void 0, void 0, function* () {
+            var pipeline = new ts_pipeline_1.Pipeline([
+                function (r, n) { return n(r + 1); },
+                function (r) { return r.toString(); }
+            ]);
+            chai_1.expect(yield pipeline.pipe(1)).to.equal("2");
         });
     });
 });

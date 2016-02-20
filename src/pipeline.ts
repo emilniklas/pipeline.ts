@@ -3,7 +3,7 @@ import { Pipeable, Handler } from "./types"
 
 type _Handler<Req, Res> = (request: Req) => Promise<Res>
 
-export default class Pipeline<Req, Res> {
+export class Pipeline<Req, Res> {
   constructor(
     private _pipeables: Pipeable<Req, Res>[]
   ) {}

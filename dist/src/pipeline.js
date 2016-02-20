@@ -35,8 +35,7 @@ var Pipeline = (function () {
     };
     return Pipeline;
 }());
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Pipeline;
+exports.Pipeline = Pipeline;
 var NoResponseFromPipelineException = (function (_super) {
     __extends(NoResponseFromPipelineException, _super);
     function NoResponseFromPipelineException() {
