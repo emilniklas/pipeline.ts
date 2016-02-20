@@ -1,16 +1,16 @@
 {
-  "name": "ts-pipeline",
+  "name": "pipeline.ts",
   "version": "1.0.0",
   "description": "Generic request/response pipeline for TypeScript",
-  "main": "dist/src/index.js",
+  "main": "dist/pipeline.js",
   "scripts": {
     "test": "mocha dist/tests",
     "build": "tsc && npm run definition",
-    "definition": "tsc ts-pipeline.ts -t es5 --outFile ts-pipeline.js -m system -d --noEmitOnError && rm ts-pipeline.js && sed -i '' -e 's/\"src\\//\"__ts-pipeline\\/src\\//g' ts-pipeline.d.ts"
+    "definition": "tsc pipeline.ts -t es5 --outFile pipeline.js -m system -d --noEmitOnError && rm pipeline.js && sed -i '' -e 's/\"src\\//\"__pipeline\\/src\\//g' pipeline.d.ts"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/emilniklas/ts-pipeline.git"
+    "url": "git+https://github.com/emilniklas/pipeline.ts.git"
   },
   "keywords": [
     "pipeline",
@@ -21,15 +21,12 @@
   "author": "Emil Persson <emil.n.persson@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/emilniklas/ts-pipeline/issues"
+    "url": "https://github.com/emilniklas/pipeline.ts/issues"
   },
-  "homepage": "https://github.com/emilniklas/ts-pipeline#readme",
+  "homepage": "https://github.com/emilniklas/pipeline.ts#readme",
   "devDependencies": {
     "assert": "^1.3.0",
     "chai": ">=3.4.0 <3.5.0",
     "mocha": "^2.4.5"
-  },
-  "dependencies": {
-    "ts-optional": "^1.0.0"
   }
 }

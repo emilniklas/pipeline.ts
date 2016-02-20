@@ -11,6 +11,6 @@
       "node_modules",
       "typings",
       "dist",
-      "ts-pipeline.d.ts"
+      "pipeline.d.ts"
     ]
 }

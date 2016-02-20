@@ -5,4 +5,4 @@ function __export(m) {
 __export(require("./src/pipeline"));
 var middleware_1 = require("./src/middleware");
 exports.Middleware = middleware_1.default;
-//# sourceMappingURL=ts-pipeline.js.map
+//# sourceMappingURL=pipeline.js.map
