@@ -1,4 +1,4 @@
-import { Pipeline, Middleware } from "../pipeline.ts.ts"
+import { Pipeline, Middleware } from "../pipeline"
 
 interface Request {
   message: string

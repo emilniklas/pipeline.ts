@@ -12,7 +12,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-var pipeline_ts_ts_1 = require("../pipeline.ts.ts");
+var pipeline_1 = require("../pipeline");
 var UppercaseMiddleware = (function (_super) {
     __extends(UppercaseMiddleware, _super);
     function UppercaseMiddleware() {
@@ -29,8 +29,8 @@ var UppercaseMiddleware = (function (_super) {
         }();
     };
     return UppercaseMiddleware;
-}(pipeline_ts_ts_1.Middleware));
-var pipeline = new pipeline_ts_ts_1.Pipeline([
+}(pipeline_1.Middleware));
+var pipeline = new pipeline_1.Pipeline([
     new UppercaseMiddleware(),
     function (request) { return ({
         message: request.message + " back!"

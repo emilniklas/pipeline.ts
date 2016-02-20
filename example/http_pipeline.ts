@@ -1,6 +1,6 @@
 /// <reference path="../typings/node/node.d.ts"/>
 
-import { Pipeline, Middleware } from "../pipeline.ts.ts"
+import { Pipeline, Middleware } from "../pipeline"
 import { createServer } from "http"
 
 interface Request {

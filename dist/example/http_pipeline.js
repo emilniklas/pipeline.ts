@@ -13,7 +13,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments)).next());
     });
 };
-var pipeline_ts_ts_1 = require("../pipeline.ts.ts");
+var pipeline_1 = require("../pipeline");
 var http_1 = require("http");
 var MyMiddleware = (function (_super) {
     __extends(MyMiddleware, _super);
@@ -26,8 +26,8 @@ var MyMiddleware = (function (_super) {
         return next(request);
     };
     return MyMiddleware;
-}(pipeline_ts_ts_1.Middleware));
-var pipeline = new pipeline_ts_ts_1.Pipeline([
+}(pipeline_1.Middleware));
+var pipeline = new pipeline_1.Pipeline([
     new MyMiddleware(),
     function (request) {
         return {
